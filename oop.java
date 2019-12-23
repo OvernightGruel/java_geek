@@ -40,6 +40,8 @@ class Person{
     protected String name;       // 私有属性（可继承）
     public String country = "china"; // 也可以直接初始化，该初始化在构造方法之前
 
+    public static int number;    // 静态属性：相当于Python中类属性。静态方法同理
+
     // 构造方法，相当于python中__init__
     public Person(String... names){  // 不定长参数，实际传递数组参数String[]
         this.full_name = names;
@@ -124,6 +126,10 @@ abstract class AbstractClass{
 // 接口可以定义default方法（JDK>=1.8）。
 
 interface InterfaceOne{
+    // 接口的静态字段：编译器会自动加上public statc final:
+    int MALE = 1;
+    int FEMALE = 2;
+
     void One();
 }
 
