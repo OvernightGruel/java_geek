@@ -2,7 +2,7 @@ import java.util.StringJoiner;
 import java.beans.*;
 
 public class CoreClass{
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args){
         // String相关 https://www.liaoxuefeng.com/wiki/1252599548343744/1260469698963456 
         // StringBuilder是可变对象，用来高效拼接字符串
         var sb = new StringBuilder(1024);  
@@ -124,14 +124,25 @@ public class CoreClass{
         // }
 
 
-        // JavaBean --------------------------------------------------------------------------------------------
+        // JavaBean/异常处理 --------------------------------------------------------------------------------------------
         // JavaBean是一种符合命名规范的class，它通过getter和setter来定义属性
         // 使用Introspector.getBeanInfo()可以获取属性列表
-        BeanInfo info = Introspector.getBeanInfo(Teacher.class);
-        for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
-            System.out.println(pd.getName());
-            System.out.println("  " + pd.getReadMethod());
-            System.out.println("  " + pd.getWriteMethod());
+        try {
+            // 因为getBeanInfo()有声明可能抛出异常(throws IntrospectionException)
+            // 所以需要捕获异常 或 在外层声明可能抛出异常
+            // 断言是一种调试方式，断言失败会抛出AssertionError，只能在开发和测试阶段启用断言: assert x >= 0 : "x must >= 0";
+            BeanInfo info = Introspector.getBeanInfo(Teacher.class); 
+            for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
+                System.out.println(pd.getName());
+                System.out.println("  " + pd.getReadMethod());
+                System.out.println("  " + pd.getWriteMethod());
+            }
+        } catch (IntrospectionException e) {        // 捕获异常，可捕获多个catch (IntrospectionException | IOException e)
+            e.printStackTrace();                    // 调用printStackTrace()可以打印异常的传播栈，对于调试非常有用
+            // 捕获异常并再次抛出新的异常时，应该持有原始异常信息
+        } finally {
+            // 通常不要在finally中抛出异常。如果在finally中抛出异常，应该原始异常加入到原有异常中。调用方可通过Throwable.getSuppressed()获取所有添加的Suppressed Exception
+            System.out.println("最后总是执行");
         }
     }
 }
