@@ -26,8 +26,9 @@ public class Hello{
             字符类型: char
             布尔类型: boolean
 
-        引用数据类型: 引用类型的变量可以指向一个空值null，它表示不存在，即该变量不指向任何对象
-            字符串string: 
+        引用数据类型: 所有class和interface类型。引用类型的变量可以指向一个空值null，它表示不存在，即该变量不指向任何对象
+            字符串String: 
+                实为class，可以等价为：String s2 = new String(new char[] {'H', 'e', 'l', 'l', 'o', '!'});
                 字符串使用双引号"..."表示开始和结束, 使用+连接任意字符串和其他数据类型
                 java13特性, 可以用"""..."""表示多行字符串. `javac --source 13 --enable-preview Main.java`
                 不可变类型
